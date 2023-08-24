@@ -1,25 +1,34 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-const initialState = {
-  users: [],
-  repos: [],
+import { combineReducers } from "@reduxjs/toolkit";
+import { repoReducer } from "./repo";
+import { userReducer } from "./user";
+
+const ghp = import.meta.env.VITE_GHP;
+
+const githubReducer = combineReducers({
+  user: userReducer,
+  repo: repoReducer,
+});
+
+const fetchItems = async (keyword: string, type: string) => {
+  const response = await fetch(
+    `https://api.github.com/search/${type}?q=${keyword}`,
+    {
+      headers: {
+        Authorization: `Bearer ${ghp}`,
+        Accept: "application/vnd.github.v3+json",
+      },
+    }
+  );
+
+  const data = await response.json();
+  return data.items;
 };
 
-const githubReducer = (state = initialState, action: any) => {
-  switch (action.type) {
-    case "SET_USERS":
-      return {
-        ...state,
-        users: action.payload,
-      };
-    case "SET_REPOS":
-      return {
-        ...state,
-        repos: action.payload,
-      };
-    default:
-      return state;
-  }
+const checkExist = (state: any, keyword: string) => {
+  const exist = state.find((item: any) => item.keyword === keyword);
+  return exist;
 };
 
-export { githubReducer };
+export { githubReducer, fetchItems, checkExist };
