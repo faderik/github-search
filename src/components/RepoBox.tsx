@@ -12,9 +12,16 @@ export default function RepoBox({ className, repo }: RepoBoxProps) {
     <a href={repo.html_url}>
       <div className={"user-wrapper" + (className ? " " + className : "")}>
         <div className="repo-data">
-          <div className="">
-            <p className="repo-name">{repo.name}</p>
-            <p className="user-name">{"@" + repo.owner.login}</p>
+          <div className="repo-info">
+            <div className="">
+              <p className="repo-name">{repo.name}</p>
+              <p className="user-name">{"@" + repo.owner.login}</p>
+            </div>
+            <img
+              className="repo-avatar"
+              src={repo.owner.avatar_url}
+              alt="avatar"
+            />
           </div>
           <div className="stats">
             <div className="stat">
