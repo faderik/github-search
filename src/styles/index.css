@@ -1,0 +1,97 @@
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.2;
+  font-weight: 400;
+}
+
+#root {
+  display: flex;
+  place-items: start;
+  width: 100%;
+  min-height: 100vh;
+}
+
+body {
+  margin: 0;
+  display: flex;
+  width: 100%;
+  min-height: 100vh;
+}
+
+.page {
+  display: flex;
+  flex-direction: column;
+  width: 75%;
+  margin: 0 auto;
+  padding: 3rem 0 3rem 0;
+}
+
+p {
+  font-size: 1rem;
+  font-weight: 400;
+  color: #333;
+  margin: 0 0 0 0;
+}
+
+.title {
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin: 0 0 0 0;
+}
+
+.header {
+  height: fit-content;
+  display: flex;
+  flex-direction: row;
+  place-items: center;
+}
+
+.gh-logo {
+  width: 4rem;
+  height: 4rem;
+}
+
+.header-desc {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: #333;
+  margin-left: 1rem;
+}
+
+.search {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  place-items: center;
+  gap: 1rem;
+  margin: 2rem 0 1rem 0;
+}
+
+.searchbox {
+  width: 100%;
+  min-height: 1.5rem;
+  border: 1px solid #aaaaaa;
+  padding: 0.5rem 1rem 0.5rem 1rem;
+  font-size: 1rem;
+  font-weight: 400;
+  color: #333;
+
+  &:focus {
+    outline: none;
+  }
+}
+
+select {
+  width: 10rem;
+  min-height: 1.5rem;
+  border: 1px solid #aaaaaa;
+  padding: 0.65rem;
+  font-size: 1rem;
+  font-weight: 400;
+  color: #333;
+
+  &:focus {
+    outline: none;
+  }
+}
