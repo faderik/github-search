@@ -7,6 +7,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "./redux";
 import { checkExist, fetchItems } from "./redux/reducer";
 import ResultList from "./components/ResultList";
+import { Link } from "react-router-dom";
 
 function App() {
   const [keyword, setKeyword] = useState("");
@@ -53,12 +54,13 @@ function App() {
     };
 
     if (keyword === "") {
+      setError("Input some keywords to search");
+    } else {
       setError("");
-      return;
     }
 
     const state = type === "users" ? users : repos;
-    if (!checkExist(state, keyword, currentPage)) {
+    if (!checkExist(state, keyword, currentPage) && keyword !== "") {
       reqToApi();
     } else {
       setLoading(false);
@@ -103,13 +105,13 @@ function App() {
   return (
     <>
       <div className="page">
-        <div className="header">
+        <Link className="header" to={"/"}>
           <img src={githubLogo} className="gh-logo" alt="logo" />
           <div className="header-desc">
             <h1 className="title">Github Searcher</h1>
             <p>Search users or repositories below</p>
           </div>
-        </div>
+        </Link>
         <div className="search">
           <input
             className="searchbox"

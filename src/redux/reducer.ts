@@ -23,11 +23,25 @@ const fetchItems = async (keyword: string, type: string, page: number) => {
   );
 
   const data = await response.json();
+  if (response.status != 200) {
+    throw new Error(data.message);
+  }
+
   const headers = response.headers;
   const link = headers.get("Link");
 
-  const matchTotalPage = link?.match(/page=(\d+)>; rel="last"/);
-  const totalPage = matchTotalPage ? parseInt(matchTotalPage[1]) : 0;
+  const matchLastPage = link?.match(/page=(\d+)>; rel="last"/);
+  const matchPrevPage = link?.match(/page=(\d+)>; rel="prev"/);
+
+  let totalPage = 0;
+
+  if (matchLastPage == null) {
+    // currently is last page
+    totalPage = matchPrevPage ? parseInt(matchPrevPage[1]) + 1 : 1;
+  } else {
+    // currently isnt lastpage
+    totalPage = parseInt(matchLastPage[1]);
+  }
 
   return [data.items, totalPage];
 };

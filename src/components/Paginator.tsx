@@ -46,7 +46,7 @@ export default function Paginator({
 
       {currentPage + 2 < totalPage && <div className="">{"..."}</div>}
 
-      {totalPage > 1 && (
+      {totalPage > 1 && currentPage < totalPage && (
         <button
           className="paginator-btn"
           onClick={() => setCurrentPage(totalPage)}

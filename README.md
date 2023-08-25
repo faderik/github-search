@@ -8,10 +8,10 @@ Github search is a simple web app that allows you to search for users and reposi
 
 ## Stack
 
-- [Vite]('https://vitejs.dev/') : React-Typescript Boilerplate
-- [React-Router]('https://reactrouter.com') : Routing
-- [Redux]('https://redux-toolkit.js.org/') : State Management
-- [Redux-Persist]('https://github.com/rt2zz/redux-persist') : Local Storage
-- [Vercel]('https://vercel.com/') : Deployment
-- [GitHub API]('https://docs.github.com/en/rest/search/search?apiVersion=2022-11-28') : Data
-- [Vanila CSS]('https://developer.mozilla.org/en-US/docs/Web/CSS') : Styling
+- [Vite](https://vitejs.dev/) : React-Typescript Boilerplate
+- [React-Router](https://reactrouter.com) : Routing
+- [Redux](https://redux-toolkit.js.org/) : State Management
+- [Redux-Persist](https://github.com/rt2zz/redux-persist) : Local Storage
+- [Vercel](https://vercel.com/) : Deployment
+- [GitHub API](https://docs.github.com/en/rest/search/search?apiVersion=2022-11-28) : Data
+- [Vanila CSS](https://developer.mozilla.org/en-US/docs/Web/CSS) : Styling
