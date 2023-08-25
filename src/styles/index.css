@@ -235,7 +235,7 @@ a {
   }
 }
 
-.loading {
+.info {
   display: flex;
   place-items: center;
   justify-content: center;

@@ -25,7 +25,7 @@ export default function ResultList({
   totalPage,
 }: ResultListProps) {
   if (loading) {
-    return <div className="loading">Loading...</div>;
+    return <div className="info">Loading...</div>;
   }
 
   if (error !== "") {
@@ -33,15 +33,15 @@ export default function ResultList({
   }
 
   if (!users || !repos) {
-    return <div className="loading">No result found.</div>;
+    return <div className="info">No result found.</div>;
   }
 
   if (type == "users" && users.length === 0) {
-    return <div className="loading">No result found.</div>;
+    return <div className="info">No result found.</div>;
   }
 
   if (type == "repositories" && repos.length === 0) {
-    return <div className="loading">No result found.</div>;
+    return <div className="info">No result found.</div>;
   }
 
   return (

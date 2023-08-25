@@ -1,13 +1,14 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { useState, useEffect } from "react";
+import { useState, useLayoutEffect } from "react";
 import githubLogo from "./assets/github-mark.svg";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "./redux";
 import { checkExist, fetchItems } from "./redux/reducer";
 import ResultList from "./components/ResultList";
 import { Link } from "react-router-dom";
+import debounce from "lodash.debounce";
 
 function App() {
   const [keyword, setKeyword] = useState("");
@@ -25,7 +26,7 @@ function App() {
 
   const dispatch = useDispatch();
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const reqToApi = async () => {
       try {
         setLoading(true);
@@ -51,6 +52,8 @@ function App() {
       }
     };
 
+    const debouncer = debounce(reqToApi, 500);
+
     if (keyword === "") {
       setError("Input some keywords to search");
     } else {
@@ -59,19 +62,22 @@ function App() {
 
     const state = type === "users" ? users : repos;
     if (!checkExist(state, keyword, currentPage) && keyword !== "") {
-      reqToApi();
+      debouncer();
     } else {
-      const matched = setupMatchedData() as any;
-      setTotalPage(matched.totalPage);
+      setupMatchedData();
     }
+
+    return () => {
+      debouncer.cancel();
+    };
   }, [keyword, type, dispatch, currentPage]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const matched = setupMatchedData() as any;
     setTotalPage(matched.totalPage);
   }, [users, repos]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     setLoading(false);
   }, [matchedRepo, matchedUser]);
 
