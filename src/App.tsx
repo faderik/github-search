@@ -44,12 +44,10 @@ function App() {
             payload: { keyword, page: currentPage, items, totalPage: lastPage },
           });
         }
-
-        setLoading(false);
       } catch (error: any) {
-        console.log("AKU ERROR NIH");
         setLoading(false);
         setError(error.message);
+        return;
       }
     };
 
@@ -63,8 +61,6 @@ function App() {
     if (!checkExist(state, keyword, currentPage) && keyword !== "") {
       reqToApi();
     } else {
-      setLoading(false);
-
       const matched = setupMatchedData() as any;
       setTotalPage(matched.totalPage);
     }
@@ -74,6 +70,10 @@ function App() {
     const matched = setupMatchedData() as any;
     setTotalPage(matched.totalPage);
   }, [users, repos]);
+
+  useEffect(() => {
+    setLoading(false);
+  }, [matchedRepo, matchedUser]);
 
   const setupMatchedData = () => {
     let matched;
