@@ -7,7 +7,6 @@ import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "./redux";
 import { checkExist, fetchItems } from "./redux/reducer";
 import ResultList from "./components/ResultList";
-import { Link } from "react-router-dom";
 import debounce from "lodash.debounce";
 
 function App() {
@@ -111,13 +110,17 @@ function App() {
   return (
     <>
       <div className="page">
-        <Link className="header" to={"/"}>
+        <a
+          className="header"
+          href="https://github.com/faderik/github-search"
+          target="_blank"
+        >
           <img src={githubLogo} className="gh-logo" alt="logo" />
           <div className="header-desc">
             <h1 className="title">Github Searcher</h1>
             <p>Search users or repositories below</p>
           </div>
-        </Link>
+        </a>
         <div className="search">
           <input
             className="searchbox"
