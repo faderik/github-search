@@ -103,7 +103,7 @@ select {
   gap: 1rem;
 }
 
-.user-wrapper {
+.box-wrapper {
   flex: 1;
 
   display: flex;
@@ -111,7 +111,7 @@ select {
   flex-direction: row;
   gap: 1rem;
   background-color: #f0eeee;
-  border-radius: 0.3rem;
+  border-radius: 0.1rem;
   padding: 1rem;
   height: 80px;
   word-wrap: break-word;
@@ -122,6 +122,11 @@ select {
     transform: translate(10px 30px);
     background-color: #ffffff;
     box-shadow: 2px 3px 6px #c4c2c2;
+  }
+
+  &.col {
+    flex-direction: column;
+    height: 100%;
   }
 }
 
@@ -169,7 +174,7 @@ a {
   place-items: center;
   text-align: center !important;
   font-weight: 700;
-  color: #333;
+  color: #8d8c8c;
   gap: 0.3rem;
 }
 .stat-icon {
@@ -179,6 +184,7 @@ a {
 
 .repo-info {
   display: flex;
+  width: 100%;
   justify-content: space-between;
   flex: 1;
 }
@@ -186,4 +192,60 @@ a {
 .repo-avatar {
   height: 3rem;
   border-radius: 0.3rem;
+}
+
+.paginator {
+  display: flex;
+  flex-direction: row;
+  place-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin: 2rem 0 2rem 0;
+}
+
+.paginator-page {
+  padding: 0.5rem;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #333;
+}
+
+.paginator-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+  font-size: 1rem;
+  font-weight: 400;
+  color: #333;
+
+  &:hover {
+    font-weight: 500;
+  }
+
+  &:disabled {
+    color: #8b8b8b;
+    cursor: not-allowed;
+  }
+
+  &.active {
+    font-weight: 600;
+  }
+}
+
+.loading {
+  display: flex;
+  place-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+}
+
+.error {
+  display: flex;
+  place-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+  color: rgb(160, 0, 0);
 }

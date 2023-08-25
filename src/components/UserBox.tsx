@@ -8,7 +8,8 @@ export default function UserBox({ className, user }: UserBoxProps) {
   return (
     <a
       href={user.html_url}
-      className={"user-wrapper" + (className ? " " + className : "")}
+      target="_blank"
+      className={"box-wrapper" + (className ? " " + className : "")}
     >
       <img className="user-avatar" src={user.avatar_url} alt="avatar" />
       <div className="user-data">

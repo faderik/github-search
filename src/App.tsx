@@ -1,17 +1,23 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-explicit-any */
+
 import { useState, useEffect } from "react";
 import githubLogo from "./assets/github-mark.svg";
-import UserBox from "./components/UserBox";
-
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "./redux";
 import { checkExist, fetchItems } from "./redux/reducer";
-import RepoBox from "./components/RepoBox";
+import ResultList from "./components/ResultList";
 
 function App() {
   const [keyword, setKeyword] = useState("");
   const [type, setType] = useState("users");
-  const [matchedUsers, setMatchedUsers] = useState<any[]>([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPage, setTotalPage] = useState(1);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  const [matchedUser, setMatchedUser] = useState<User[]>([]);
+  const [matchedRepo, setMatchedRepo] = useState<Repo[]>([]);
 
   const users = useSelector((state: RootState) => state.user);
   const repos = useSelector((state: RootState) => state.repo);
@@ -20,36 +26,74 @@ function App() {
 
   useEffect(() => {
     const reqToApi = async () => {
-      console.log("I AM CALLING API...");
-      const items = await fetchItems(keyword, type);
+      try {
+        setLoading(true);
 
-      if (type === "users") {
-        dispatch({ type: "SET_USERS", payload: { keyword, items } });
-      } else {
-        dispatch({ type: "SET_REPOS", payload: { keyword, items } });
+        console.log("I AM CALLING API...");
+        const [items, lastPage] = await fetchItems(keyword, type, currentPage);
+
+        if (type === "users") {
+          dispatch({
+            type: "SET_USERS",
+            payload: { keyword, page: currentPage, items, totalPage: lastPage },
+          });
+        } else {
+          dispatch({
+            type: "SET_REPOS",
+            payload: { keyword, page: currentPage, items, totalPage: lastPage },
+          });
+        }
+
+        setLoading(false);
+      } catch (error: any) {
+        console.log("AKU ERROR NIH");
+        setLoading(false);
+        setError(error.message);
       }
     };
 
-    const state = type === "users" ? users : repos;
-    if (!checkExist(state, keyword)) {
-      reqToApi();
+    if (keyword === "") {
+      setError("");
+      return;
     }
-  }, [keyword, type, dispatch]);
 
-  const getMatchedUsers = () => {
-    const matched = users.filter((user) => user.keyword === keyword);
-    if (!matched.length) return [];
-    return matched[0].items;
-  };
+    const state = type === "users" ? users : repos;
+    if (!checkExist(state, keyword, currentPage)) {
+      reqToApi();
+    } else {
+      setLoading(false);
 
-  const getMatchedRepos = () => {
-    const matched = repos.filter((repo) => repo.keyword === keyword);
+      const matched = setupMatchedData() as any;
+      setTotalPage(matched.totalPage);
+    }
+  }, [keyword, type, dispatch, currentPage]);
+
+  useEffect(() => {
+    const matched = setupMatchedData() as any;
+    setTotalPage(matched.totalPage);
+  }, [users, repos]);
+
+  const setupMatchedData = () => {
+    let matched;
+    if (type === "users") {
+      matched = users.filter(
+        (user) => user.keyword === keyword && user.page === currentPage
+      );
+      setMatchedUser(matched[0] ? matched[0].items : []);
+    } else {
+      matched = repos.filter(
+        (repo) => repo.keyword === keyword && repo.page === currentPage
+      );
+      setMatchedRepo(matched[0] ? matched[0].items : []);
+    }
+
     if (!matched.length) return [];
-    return matched[0].items;
+    return matched[0];
   };
 
   const handleTypeChange = (e: any) => {
     setType(e.target.value);
+    setCurrentPage(1);
   };
 
   const handleKeywordChange = (e: any) => {
@@ -83,15 +127,16 @@ function App() {
             <option value="repositories">Repositories</option>
           </select>
         </div>
-        <div className="content">
-          {type == "users"
-            ? getMatchedUsers().map((user: User) => (
-                <UserBox key={user.id} user={user} />
-              ))
-            : getMatchedRepos().map((repo: Repo) => (
-                <RepoBox key={repo.id} repo={repo} />
-              ))}
-        </div>
+        <ResultList
+          error={error}
+          loading={loading}
+          type={type}
+          users={matchedUser}
+          repos={matchedRepo}
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+          totalPage={totalPage}
+        />
       </div>
     </>
   );

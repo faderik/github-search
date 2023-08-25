@@ -9,34 +9,30 @@ type RepoBoxProps = {
 
 export default function RepoBox({ className, repo }: RepoBoxProps) {
   return (
-    <a href={repo.html_url}>
-      <div className={"user-wrapper" + (className ? " " + className : "")}>
-        <div className="repo-data">
-          <div className="repo-info">
-            <div className="">
-              <p className="repo-name">{repo.name}</p>
-              <p className="user-name">{"@" + repo.owner.login}</p>
-            </div>
-            <img
-              className="repo-avatar"
-              src={repo.owner.avatar_url}
-              alt="avatar"
-            />
-          </div>
-          <div className="stats">
-            <div className="stat">
-              <img src={starSvg} className="stat-icon" alt="logo" />{" "}
-              {repo.stargazers_count}
-            </div>
-            <div className="stat">
-              <img src={watcherSvg} className="stat-icon" alt="logo" />
-              {repo.watchers_count}
-            </div>
-            <div className="stat">
-              <img src={forkSvg} className="stat-icon" alt="logo" />
-              {repo.forks_count}
-            </div>
-          </div>
+    <a
+      href={repo.html_url}
+      target="_blank"
+      className={"box-wrapper col" + (className ? " " + className : "")}
+    >
+      <div className="repo-info">
+        <div className="">
+          <p className="repo-name">{repo.name}</p>
+          <p className="user-name">{"@" + repo.owner.login}</p>
+        </div>
+        <img className="repo-avatar" src={repo.owner.avatar_url} alt="avatar" />
+      </div>
+      <div className="stats">
+        <div className="stat">
+          <img src={starSvg} className="stat-icon" alt="logo" />{" "}
+          {repo.stargazers_count}
+        </div>
+        <div className="stat">
+          <img src={watcherSvg} className="stat-icon" alt="logo" />
+          {repo.watchers_count}
+        </div>
+        <div className="stat">
+          <img src={forkSvg} className="stat-icon" alt="logo" />
+          {repo.forks_count}
         </div>
       </div>
     </a>

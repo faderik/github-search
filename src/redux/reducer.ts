@@ -11,9 +11,9 @@ const githubReducer = combineReducers({
   repo: repoReducer,
 });
 
-const fetchItems = async (keyword: string, type: string) => {
+const fetchItems = async (keyword: string, type: string, page: number) => {
   const response = await fetch(
-    `https://api.github.com/search/${type}?q=${keyword}`,
+    `https://api.github.com/search/${type}?q=${keyword}&per_page=30&page=${page}`,
     {
       headers: {
         Authorization: `Bearer ${ghp}`,
@@ -23,12 +23,20 @@ const fetchItems = async (keyword: string, type: string) => {
   );
 
   const data = await response.json();
-  return data.items;
+  const headers = response.headers;
+  const link = headers.get("Link");
+
+  const matchTotalPage = link?.match(/page=(\d+)>; rel="last"/);
+  const totalPage = matchTotalPage ? parseInt(matchTotalPage[1]) : 0;
+
+  return [data.items, totalPage];
 };
 
-const checkExist = (state: any, keyword: string) => {
-  const exist = state.find((item: any) => item.keyword === keyword);
-  return exist;
+const checkExist = (state: any, keyword: string, page: number) => {
+  const exist = state.find(
+    (item: any) => item.keyword === keyword && item.page === page
+  );
+  return exist != null;
 };
 
 export { githubReducer, fetchItems, checkExist };
